@@ -22,16 +22,17 @@ Balt_veh_total <- ddply(Balt_vehicle, .(year), function(x) sum(x$Emissions))
 colnames(Balt_veh_total) <- c("Year", "Emissions")
 
 ## Plot totals and a boxplot in a PNG
-png("plot5.png", width=960, height=480, units="px")
+png("plots/plot5.png", width=960, height=480, units="px")
 
 # Due to extreme outliers, the scale of the y axis is set to log10.
 pb <- ggplot(Balt_vehicle, aes(x=factor(year), y=Emissions)) +
   geom_boxplot() + scale_y_log10() +
-  xlab("Year")
+  xlab("Year") + ylab("Emissions (log10)")
 
-# And now the totals as a line plot.
-pt <- ggplot(Balt_veh_total, aes(x=Year, y=Emissions)) +
-  geom_line() + ylab("Total Emissions")
+# And now the totals as a barplot.
+pt <- ggplot(Balt_veh_total, aes(x=factor(Year), y=Emissions)) +
+  geom_bar(stat="identity") +
+  ylab("Total Emissions") + xlab("Year")
 
 # Combine them in one figure.
 grid.arrange(pb, pt, ncol = 2,

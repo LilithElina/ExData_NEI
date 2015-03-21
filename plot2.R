@@ -13,7 +13,7 @@ Balt_total <- ddply(Baltimore, .(year), function(x) sum(x$Emissions))
 colnames(Balt_total) <- c("Year", "Emissions")
 
 ## Plot totals in a PNG
-png("plot2.png", width=480, height=480, units="px")
-plot(Balt_total$Year, Balt_total$Emissions, type="l",
-     xlab="Year", ylab="Total Emissions", main="Total Emissions From PM2.5 In Baltimore City")
+png("plots/plot2.png", width=480, height=480, units="px")
+barplot(height=Balt_total$Emissions, names.arg=Balt_total$Year,
+        xlab="Year", ylab="Total Emissions", main="Total Emissions From PM2.5 In Baltimore City")
 dev.off()

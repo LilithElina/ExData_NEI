@@ -10,7 +10,7 @@ total <- ddply(NEI, .(year), function(x) sum(x$Emissions))
 colnames(total) <- c("Year", "Emissions")
 
 ## Plot totals in a PNG
-png("plot1.png", width=480, height=480, units="px")
-plot(total$Year, total$Emissions, type="l",
+png("plots/plot1.png", width=480, height=480, units="px")
+barplot(height=total$Emissions, names.arg=total$Year,
      xlab="Year", ylab="Total Emissions", main="Total Emissions From PM2.5")
 dev.off()

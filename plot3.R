@@ -14,9 +14,9 @@ Balt_type_total <- ddply(Baltimore, .(type, year), function(x) sum(x$Emissions))
 colnames(Balt_type_total) <- c("Type", "Year", "Emissions")
 
 ## Plot totals in a PNG
-png("plot3.png", width=480, height=480, units="px")
-p <- ggplot(Balt_type_total, aes(x=Year, y=Emissions, group=Type))
-p + geom_line(aes(colour=Type)) +
+png("plots/plot3.png", width=480, height=480, units="px")
+p <- ggplot(Balt_type_total, aes(x=factor(Year), y=Emissions, fill=Type))
+p + geom_bar(stat="identity", position="dodge") +
   ggtitle("Total Emissions From PM2.5 In Baltimore City") +
   ylab("Total Emissions")
 dev.off()

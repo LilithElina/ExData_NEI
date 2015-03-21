@@ -22,22 +22,21 @@ subset_veh_total <- ddply(subset_vehicle, .(year, fips), function(x) sum(x$Emiss
 colnames(subset_veh_total) <- c("Year", "Location", "Emissions")
 
 ## Plot totals and a boxplot in a PNG
-png("plot6.png", width=960, height=480, units="px")
+png("plots/plot6.png", width=960, height=480, units="px")
 
 # Due to extreme outliers, the scale of the y axis is set to log10.
 pb <- ggplot(subset_vehicle, aes(x=factor(year), y=Emissions)) +
   geom_boxplot(aes(fill=fips)) + scale_y_log10() +
-  xlab("Year") +
+  xlab("Year") + ylab("Emissions (log10)") +
   scale_fill_discrete(name="Location",
                       breaks=c("06037", "24510"),
                       labels=c("LA County", "Baltimore City"))
 
-# And now the totals as a line plot, also with logarithmic scaling,
-# beause there is such a huge difference between the locations.
-pt <- ggplot(subset_veh_total, aes(x=Year, y=Emissions, group=Location)) +
-  geom_line(aes(colour=Location)) + scale_y_log10() +
-  ylab("Total Emissions") +
-  scale_colour_discrete(name="Location",
+# And now the totals as a barplot
+pt <- ggplot(subset_veh_total, aes(x=factor(Year), y=Emissions, fill=Location)) +
+  geom_bar(stat="identity", position="dodge") +
+  ylab("Total Emissions") + xlab("Year") +
+  scale_fill_discrete(name="Location",
                         breaks=c("06037", "24510"),
                         labels=c("LA County", "Baltimore City"))
 

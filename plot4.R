@@ -19,18 +19,19 @@ coal_total <- ddply(NEI_coal, .(year), function(x) sum(x$Emissions))
 colnames(coal_total) <- c("Year", "Emissions")
 
 ## Plot totals and a boxplot in a PNG
-png("plot4.png", width=960, height=480, units="px")
+png("plots/plot4.png", width=960, height=480, units="px")
 
 # First the boxplot.
 # Due to extreme outliers, the scale of the y axis is set to log10,
 # but this doesn't seem to be the way to go.
 pb <- ggplot(NEI_coal, aes(x=factor(year), y=Emissions)) +
   geom_boxplot() + scale_y_log10() +
-  xlab("Year")
+  xlab("Year") + ylab("Emissions (log10)")
 
-# And now the totals as a line plot, similar to the plots before.
-pt <- ggplot(coal_total, aes(x=Year, y=Emissions)) +
-  geom_line() + ylab("Total Emissions")
+# And now the totals as a barplot, similar to the plots before.
+pt <- ggplot(coal_total, aes(x=factor(Year), y=Emissions)) +
+  geom_bar(stat="identity") +
+  ylab("Total Emissions") + xlab("Year")
 
 # Combine them in one figure.
 grid.arrange(pb, pt, ncol = 2,
